@@ -1,13 +1,24 @@
 import express, { Request, Response, NextFunction } from "express";
-import { CreateVendor, GetVendorByID, GetVendors } from "../controllers";
+import {
+  AddFood,
+  GetVendorProfile,
+  UpdateVendorProfile,
+  UpdateVendorService,
+  VendorLogin,
+} from "../controllers";
+import { Authenticate } from "../middlewares";
 
 const router = express.Router();
 
-router.post("/vendor", CreateVendor);
+router.post("/login", VendorLogin);
 
-router.get("/vendors", GetVendors);
+router.use(Authenticate);
+router.get("/profile", GetVendorProfile);
+router.patch("/profile", UpdateVendorProfile);
+router.patch("/service", UpdateVendorService);
 
-router.get("/vendor/:id", GetVendorByID);
+router.post("/food", AddFood);
+router.get("/foods");
 
 router.get("/", (req: Request, res: Response, next: NextFunction) => {
   res.json({ message: "Hello from vendor route" });
