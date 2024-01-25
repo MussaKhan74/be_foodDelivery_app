@@ -83,7 +83,6 @@ export const UpdateVendorService = async (
   next: NextFunction
 ) => {
   const user = req.user;
-  // Add FoodWorking
 
   if (user) {
     const existingVendor = await FindVendor(user._id);
@@ -143,6 +142,13 @@ export const GetFoods = async (
   const user = req.user;
 
   if (user) {
+    const foods = await Food.find({ vandorId: user._id });
+
+    console.log(foods);
+
+    if (foods !== null) {
+      return res.json(foods);
+    }
   }
 
   return res.json({ message: "Foods information not found!" });
